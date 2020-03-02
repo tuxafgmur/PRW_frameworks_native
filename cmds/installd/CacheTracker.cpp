@@ -51,14 +51,14 @@ void CacheTracker::addDataPath(const std::string& dataPath) {
 }
 
 void CacheTracker::loadStats() {
-    ATRACE_BEGIN("loadStats quota");
+    //ATRACE_BEGIN("loadStats quota");
     cacheUsed = 0;
     if (loadQuotaStats()) {
         return;
     }
-    ATRACE_END();
+    //ATRACE_END();
 
-    ATRACE_BEGIN("loadStats tree");
+    //ATRACE_BEGIN("loadStats tree");
     cacheUsed = 0;
     for (const auto& path : mDataPaths) {
         auto cachePath = read_path_inode(path, "cache", kXattrInodeCache);
@@ -66,7 +66,7 @@ void CacheTracker::loadStats() {
         calculate_tree_size(cachePath, &cacheUsed);
         calculate_tree_size(codeCachePath, &cacheUsed);
     }
-    ATRACE_END();
+    //ATRACE_END();
 }
 
 bool CacheTracker::loadQuotaStats() {
@@ -169,14 +169,14 @@ void CacheTracker::loadItemsFrom(const std::string& path) {
 void CacheTracker::loadItems() {
     items.clear();
 
-    ATRACE_BEGIN("loadItems");
+    //ATRACE_BEGIN("loadItems");
     for (const auto& path : mDataPaths) {
         loadItemsFrom(read_path_inode(path, "cache", kXattrInodeCache));
         loadItemsFrom(read_path_inode(path, "code_cache", kXattrInodeCodeCache));
     }
-    ATRACE_END();
+    //ATRACE_END();
 
-    ATRACE_BEGIN("sortItems");
+    //ATRACE_BEGIN("sortItems");
     auto cmp = [](std::shared_ptr<CacheItem> left, std::shared_ptr<CacheItem> right) {
         // TODO: sort dotfiles last
         // TODO: sort code_cache last
@@ -189,7 +189,7 @@ void CacheTracker::loadItems() {
         return left->directory;
     };
     std::stable_sort(items.begin(), items.end(), cmp);
-    ATRACE_END();
+    //ATRACE_END();
 }
 
 void CacheTracker::ensureItems() {

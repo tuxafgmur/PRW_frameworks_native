@@ -29,7 +29,7 @@ cc_library_shared {
         "-Wno-undef",
         "-Wno-zero-length-array",
 
-        "-DLOG_NDEBUG=0",
+        //"-DLOG_NDEBUG=0",
     ],
     cppflags: [
         "-std=c++1y",
